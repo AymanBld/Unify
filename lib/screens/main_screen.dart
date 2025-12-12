@@ -10,70 +10,76 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       // ... (existing build code)
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // ... (existing headers)
-          // Logo/Title
-          const SizedBox(height: 100),
-          Center(
-            child: Text(
-              'Unify',
-              style: GoogleFonts.titanOne(
-                fontSize: 48,
-                color: const Color(0xFF2AC6A9),
-                fontWeight: FontWeight.bold,
-              ).copyWith(fontFamilyFallback: ['Cursive', 'Serif']),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ... (existing headers)
+            // Logo/Title
+            const SizedBox(height: 100),
+            Center(
+              child: Text(
+                'Unify',
+                style: GoogleFonts.titanOne(
+                  fontSize: 48,
+                  color: const Color(0xFF2AC6A9),
+                  fontWeight: FontWeight.bold,
+                ).copyWith(fontFamilyFallback: ['Cursive', 'Serif']),
+              ),
             ),
-          ),
-          const SizedBox(height: 30),
+            const SizedBox(height: 30),
 
-          // Toggle Row
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(color: const Color(0xFF062530), borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(color: const Color(0xFF0F3A47), borderRadius: BorderRadius.circular(12)),
-                    child: Text(
-                      'Daily Challenges',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+            // Toggle Row
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(color: const Color(0xFF062530), borderRadius: BorderRadius.circular(15)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(color: const Color(0xFF0F3A47), borderRadius: BorderRadius.circular(12)),
+                      child: Text(
+                        'Daily Challenges',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      'Progress Tracking',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => onNavigate(2),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'Progress Tracking',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 60),
+            const SizedBox(height: 60),
 
-          // Main Buttons
-          _buildMainButton(context, "Student Hub", () {
-            onNavigate(4); // Index for ActivitiesScreen
-          }),
-          const SizedBox(height: 20),
-          _buildMainButton(context, "Mental Health Assistant", () {
-            onNavigate(1); // Index for ChatScreen
-          }),
+            // Main Buttons
+            _buildMainButton(context, "Student Hub", () {
+              onNavigate(4); // Index for ActivitiesScreen
+            }),
+            const SizedBox(height: 20),
+            _buildMainButton(context, "Mental Health Assistant", () {
+              onNavigate(1); // Index for ChatScreen
+            }),
 
-          const SizedBox(height: 60),
-          Center(
-            child: Opacity(opacity: 0.7, child: Image.asset('assets/images/logo.png', height: 250, fit: BoxFit.contain)),
-          ),
-        ],
+            const SizedBox(height: 60),
+            Center(
+              child: Opacity(opacity: 0.7, child: Image.asset('assets/images/logo.png', height: 250, fit: BoxFit.contain)),
+            ),
+          ],
+        ),
       ),
     );
   }

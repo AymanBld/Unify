@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+import '../providers/mental_health_provider.dart';
 
 class MySpaceScreen extends StatelessWidget {
   const MySpaceScreen({super.key});
@@ -57,7 +59,11 @@ class MySpaceScreen extends StatelessWidget {
             ), // Gold Title to match MySpace theme
           ),
           const SizedBox(height: 10),
-          Center(child: Image.asset('assets/images/plant_growth_stages.png', height: 100, fit: BoxFit.contain)),
+          Consumer<MentalHealthProvider>(
+            builder: (context, provider, child) {
+              return Center(child: Image.asset('assets/images/plant.png', height: 250, fit: BoxFit.cover));
+            },
+          ),
           const SizedBox(height: 20),
           SizedBox(
             height: 150,

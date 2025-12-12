@@ -22,6 +22,13 @@ class _ChatScreenState extends State<ChatScreen> {
     _speech = stt.SpeechToText();
   }
 
+  @override
+  void dispose() {
+    // Save AI History when leaving screen
+    Provider.of<ChatProvider>(context, listen: false).saveHistory();
+    super.dispose();
+  }
+
   void _listen() async {
     if (!_isListening) {
       bool available = await _speech.initialize(

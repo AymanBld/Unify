@@ -9,11 +9,67 @@ class ChatProvider with ChangeNotifier {
   bool _isLoading = false;
 
   // Singleton model and chat session
-  late final _model = FirebaseAI.googleAI().generativeModel(model: 'gemini-2.5-flash');
-  late final _chat = _model.startChat();
+  late final _model = FirebaseAI.googleAI().generativeModel(
+    model: 'gemini-2.5-flash',
+    systemInstruction: Content.system("""
+You are Unify, a warm, compassionate, and friendly mental health companion. 
+You are not just a bot, but a supportive friend specialized in psychology and mental well-being.
+Your goal is to actively listen, validate feelings, and provide evidence-based psychological insights (CBT, mindfulness) in a conversational, easy-to-understand way.
+Always respond with empathy and care. If someone is struggling, offer grounding techniques or gentle advice.
+Important: If a user expresses severe crisis, self-harm, or danger, strictly and gently encourage them to seek professional help or contact emergency services immediately.
+Keep your tone hopeful, non-judgmental, and deeply supportive.
+"""),
+  );
+  ChatSession? _chat;
 
   ChatProvider() {
     _loadMessages();
+    _restoreHistory();
+  }
+
+  // ... _loadMessages (UI) ...
+
+  Future<void> _restoreHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? historyJson = prefs.getString('ai_history');
+
+    List<Content> history = [];
+    if (historyJson != null) {
+      try {
+        final List<dynamic> decoded = jsonDecode(historyJson);
+        for (var item in decoded) {
+          final role = item['role'];
+          final text = item['text'];
+          if (role == 'user') {
+            history.add(Content.text(text));
+          } else {
+            history.add(Content.model([TextPart(text)]));
+          }
+        }
+      } catch (e) {
+        print("Error restoring history: $e");
+      }
+    }
+
+    _chat = _model.startChat(history: history);
+    notifyListeners();
+  }
+
+  Future<void> saveHistory() async {
+    if (_chat == null) return;
+    final prefs = await SharedPreferences.getInstance();
+
+    // Serialize current history
+    final historyList = _chat!.history.map((content) {
+      // Assuming simple text parts for now
+      String text = "";
+      if (content.parts.isNotEmpty && content.parts.first is TextPart) {
+        text = (content.parts.first as TextPart).text;
+      }
+      return {'role': content.role, 'text': text};
+    }).toList();
+
+    await prefs.setString('ai_history', jsonEncode(historyList));
   }
 
   Future<void> _loadMessages() async {
@@ -49,8 +105,12 @@ class ChatProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    if (_chat == null) {
+      _chat = _model.startChat();
+    }
+
     try {
-      final response = await _chat.sendMessage(Content.text(userText));
+      final response = await _chat!.sendMessage(Content.text(userText));
       final botReply = response.text ?? "I'm having trouble understanding right now.";
 
       _messages.insert(0, ChatMessage(id: DateTime.now().toString(), text: botReply, isUser: false, timestamp: DateTime.now()));
