@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../models/activity_model.dart';
 import '../providers/mental_health_provider.dart';
 
@@ -223,62 +222,57 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
             ),
           ),
           // const SizedBox(height: 30),
-          Divider(height: 100, color: const Color(0xFF2AC6A9).withValues(alpha: 0.5)),
+          // --- Your Plans (Swapped) ---
+          const SizedBox(height: 30),
+          Divider(height: 30, color: const Color(0xFF2AC6A9).withValues(alpha: 0.5)),
           Text(
-            "Progress Tracking",
+            "Your Plans",
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(fontSize: 28, fontWeight: FontWeight.bold, color: const Color(0xFF2AC6A9)),
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 150,
-            child: LineChart(
-              LineChartData(
-                gridData: const FlGridData(show: true, drawVerticalLine: false),
-                titlesData: const FlTitlesData(
-                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, interval: 10, reservedSize: 30)),
-                  bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, interval: 1)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                ),
-                borderData: FlBorderData(show: false),
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: [
-                      const FlSpot(21, 18),
-                      const FlSpot(22, 26),
-                      const FlSpot(23, 23),
-                      const FlSpot(24, 35),
-                      const FlSpot(25, 36),
-                    ],
-                    isCurved: true,
-                    color: const Color(0xFF64FFDA), // Neon Teal
-                    barWidth: 3,
-                    dotData: const FlDotData(show: true),
-                    belowBarData: BarAreaData(
-                      show: true,
-                      color: const Color(0xFF64FFDA).withOpacity(0.1), // Gradient fill
-                    ),
-                  ),
-                ],
-              ),
+          const SizedBox(height: 15),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1D4150).withOpacity(0.5), // Semi-transparent dark slate
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                _buildPlanButton("Preparation Exam Plan", "2025/12/12 to 2026/01/01"),
+                const SizedBox(height: 15),
+                _buildPlanButton("Exam Plan", "2025/01/12 to 2026/01/022"),
+                const SizedBox(height: 15),
+                _buildPlanButton("learn Desing Plan", "2025/12/12 to 2026/06/06"),
+                const SizedBox(height: 20),
+                Text("Select Plan to More Discover", style: GoogleFonts.lato(color: const Color(0xFF2AC6A9), fontSize: 14)),
+              ],
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Text(
-                "7",
-                style: TextStyle(color: Color(0xFFFFD700), fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(width: 4),
-              const Icon(Icons.local_fire_department, color: Color(0xFFFFD700)),
-              const SizedBox(width: 8),
-              Text(
-                "120Xp",
-                style: GoogleFonts.poppins(color: const Color(0xFFFFD700), fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPlanButton(String title, String dateRange) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFD700), // Gold
+        borderRadius: BorderRadius.circular(25),
+      ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.poppins(color: const Color(0xFF03121A), fontWeight: FontWeight.bold, fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            dateRange,
+            style: GoogleFonts.lato(color: const Color(0xFF03121A).withOpacity(0.8), fontSize: 12),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

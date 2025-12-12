@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "270455871486",
-    "project_id": "unify-fbea4",
-    "storage_bucket": "unify-fbea4.firebasestorage.app"
+    "project_number": "724623502148",
+    "project_id": "unifyy-5ebc3",
+    "storage_bucket": "unifyy-5ebc3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:270455871486:android:ad5b3c9808525a631392af",
+        "mobilesdk_app_id": "1:724623502148:android:f42e8ccd5e6af197d04511",
         "android_client_info": {
           "package_name": "com.example.minda_thon"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB3vA5LD5XpGyJr41htiyxzUgC3r9ccr1I"
+          "current_key": "AIzaSyCpGbNgV18dnAGKw0ZA6CVZt9N6i9CF1tI"
         }
       ],
       "services": {

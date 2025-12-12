@@ -1,65 +1,96 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/mental_health_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final Function(int index) onNavigate;
+
+  const MainScreen({super.key, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MentalHealthProvider>(
-      builder: (context, provider, child) {
-        String imagePath;
-        switch (provider.plantStage) {
-          case PlantStage.seed:
-            imagePath = 'assets/images/seed.png';
-            break;
-          case PlantStage.sprout:
-            imagePath = 'assets/images/sprout.png';
-            break;
-          case PlantStage.smallPlant:
-            imagePath = 'assets/images/small_plant.png';
-            break;
-          case PlantStage.bigPlant:
-            imagePath = 'assets/images/big_plant.png';
-            break;
-          case PlantStage.blooming:
-            imagePath = 'assets/images/blooming.png';
-            break;
-        }
-
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Mental Health Score: ${provider.user.currentScore}', style: Theme.of(context).textTheme.headlineSmall),
-              const SizedBox(height: 20),
-              Image.asset(imagePath, height: 300, fit: BoxFit.contain),
-              const SizedBox(height: 20),
-              Text(
-                _getEncouragement(provider.plantStage),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ],
+    return SingleChildScrollView(
+      // ... (existing build code)
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // ... (existing headers)
+          // Logo/Title
+          const SizedBox(height: 100),
+          Center(
+            child: Text(
+              'Unify',
+              style: GoogleFonts.titanOne(
+                fontSize: 48,
+                color: const Color(0xFF2AC6A9),
+                fontWeight: FontWeight.bold,
+              ).copyWith(fontFamilyFallback: ['Cursive', 'Serif']),
+            ),
           ),
-        );
-      },
+          const SizedBox(height: 30),
+
+          // Toggle Row
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(color: const Color(0xFF062530), borderRadius: BorderRadius.circular(15)),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(color: const Color(0xFF0F3A47), borderRadius: BorderRadius.circular(12)),
+                    child: Text(
+                      'Daily Challenges',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Text(
+                      'Progress Tracking',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(color: const Color(0xFF2AC6A9), fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 60),
+
+          // Main Buttons
+          _buildMainButton(context, "Student Hub", () {
+            onNavigate(4); // Index for ActivitiesScreen
+          }),
+          const SizedBox(height: 20),
+          _buildMainButton(context, "Mental Health Assistant", () {
+            onNavigate(1); // Index for ChatScreen
+          }),
+
+          const SizedBox(height: 60),
+          Center(
+            child: Opacity(opacity: 0.7, child: Image.asset('assets/images/logo.png', height: 250, fit: BoxFit.contain)),
+          ),
+        ],
+      ),
     );
   }
 
-  String _getEncouragement(PlantStage stage) {
-    switch (stage) {
-      case PlantStage.seed:
-        return "Every journey begins with a seed. Take care of yourself.";
-      case PlantStage.sprout:
-        return "You are growing! Keep it up.";
-      case PlantStage.smallPlant:
-        return "You're getting stronger every day.";
-      case PlantStage.bigPlant:
-        return "Look at you flourish! Amazing progress.";
-      case PlantStage.blooming:
-        return "You are blooming! Radiant and strong.";
-    }
+  Widget _buildMainButton(BuildContext context, String title, VoidCallback onTap) {
+    return SizedBox(
+      height: 60,
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF2AC6A9),
+          foregroundColor: const Color(0xFF03121A),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          elevation: 5,
+        ),
+        child: Text(title, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
+    );
   }
 }

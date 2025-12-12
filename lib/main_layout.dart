@@ -3,6 +3,7 @@ import 'screens/main_screen.dart';
 import 'screens/chat_screen.dart';
 import 'screens/activities_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/services_screen.dart';
 
 import 'screens/my_space_screen.dart';
 
@@ -18,10 +19,11 @@ class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
 
   List<Widget> get _screens => [
-    const MainScreen(),
+    MainScreen(onNavigate: (index) => setState(() => _currentIndex = index)),
     const ChatScreen(),
     const MySpaceScreen(),
-    ActivitiesScreen(),
+    const ServicesScreen(),
+    const ActivitiesScreen(), // Index 4
     const ProfileScreen(),
   ];
 
@@ -40,61 +42,32 @@ class _MainLayoutState extends State<MainLayout> {
             ),
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 60),
-              // User Header
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Color(0xFF00332C),
-                      child: Icon(Icons.person, color: Color(0xFF2AC6A9)),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF00332C).withOpacity(0.5)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Welcome Ayman", // Updated as per request
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF00332C)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              "abdelilah7bnms@gmail.com",
-                              style: TextStyle(fontSize: 10, color: Color(0xFF00332C)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  "Welcome\nAyman",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF00332C), fontFamily: 'Poppins'),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(height: 50),
               // Items with Dividers
               _buildCustomDrawerItem(Icons.home, "Home", 0),
               _buildDivider(),
-              _buildCustomDrawerItem(Icons.chat_bubble_outline, "AI Chat", 1), // Chat Index
+              _buildCustomDrawerItem(Icons.chat_bubble_outline, "AI Chat", 1),
               _buildDivider(),
               _buildCustomDrawerItem(Icons.dashboard_customize, "My Space", 2),
               _buildDivider(),
-              _buildCustomDrawerItem(Icons.list, "Services", 3), // Maps to Activities
+              _buildCustomDrawerItem(Icons.spa, "Services", 3),
               _buildDivider(),
-              _buildCustomDrawerItem(Icons.info_outline, "About us", 4), // Maps to Profile
+              _buildCustomDrawerItem(Icons.local_activity, "Activities", 4),
               _buildDivider(),
-              _buildCustomDrawerItem(Icons.settings, "Settings", 99), // Placeholder
+              _buildCustomDrawerItem(Icons.settings, "Settings", 99),
               const Spacer(),
-              // Bottom circle decoration could be added here if needed
               const SizedBox(height: 30),
             ],
           ),

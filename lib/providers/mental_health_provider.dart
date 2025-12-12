@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../services/storage_service.dart';
-import '../services/firestore_service.dart';
 
 enum PlantStage { seed, sprout, smallPlant, bigPlant, blooming }
 
@@ -9,7 +8,6 @@ class MentalHealthProvider with ChangeNotifier {
   UserModel _user = UserModel(id: '1', name: 'User', email: 'user@example.com');
   List<int> _history = [50];
   final StorageService _storage = StorageService();
-  final FirestoreService _firestoreService = FirestoreService();
 
   MentalHealthProvider() {
     loadUserData();
@@ -34,7 +32,6 @@ class MentalHealthProvider with ChangeNotifier {
     // Persist data
     _storage.saveUser(_user);
     _storage.saveHistory(_history);
-    _firestoreService.syncUser(_user); // Cloud Sync
 
     notifyListeners();
   }

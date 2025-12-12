@@ -2,15 +2,17 @@ import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:minda_thon/main_layout.dart';
+import 'package:minda_thon/providers/chat_provider.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'providers/mental_health_provider.dart';
-import 'providers/chat_provider.dart';
-import 'main_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  }
 
   runApp(const MyApp());
 }

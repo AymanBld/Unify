@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class MySpaceScreen extends StatelessWidget {
   const MySpaceScreen({super.key});
@@ -44,37 +45,56 @@ class MySpaceScreen extends StatelessWidget {
               _buildBadge(Icons.do_not_disturb, "Disciplined"),
             ],
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 60),
 
-          // --- Your Plans ---
+          // --- Progress Tracking (Swapped) ---
           Text(
-            "Your Plans",
+            "Progress Tracking",
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFFFFD700), // Gold
+              color: const Color(0xFFFFD700),
+            ), // Gold Title to match MySpace theme
+          ),
+          const SizedBox(height: 10),
+          Center(child: Image.asset('assets/images/plant_growth_stages.png', height: 100, fit: BoxFit.contain)),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 150,
+            child: LineChart(
+              LineChartData(
+                gridData: const FlGridData(show: true, drawVerticalLine: false),
+                titlesData: const FlTitlesData(
+                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, interval: 10, reservedSize: 30)),
+                  bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, interval: 1)),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(show: false),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: [
+                      const FlSpot(21, 18),
+                      const FlSpot(22, 26),
+                      const FlSpot(23, 23),
+                      const FlSpot(24, 35),
+                      const FlSpot(25, 36),
+                    ],
+                    isCurved: true,
+                    color: const Color(0xFF64FFDA), // Neon Teal
+                    barWidth: 3,
+                    dotData: const FlDotData(show: true),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: const Color(0xFF64FFDA).withOpacity(0.1), // Gradient fill
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 15),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: const Color(0xFF1D4150).withOpacity(0.5), // Semi-transparent dark slate
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              children: [
-                _buildPlanButton("Preparation Exam Plan", "2025/12/12 to 2026/01/01"),
-                const SizedBox(height: 15),
-                _buildPlanButton("Exam Plan", "2025/01/12 to 2026/01/022"),
-                const SizedBox(height: 15),
-                _buildPlanButton("learn Desing Plan", "2025/12/12 to 2026/06/06"),
-                const SizedBox(height: 20),
-                Text("Select Plan to More Discover", style: GoogleFonts.lato(color: const Color(0xFF2AC6A9), fontSize: 14)),
-              ],
-            ),
-          ),
-          const SizedBox(height: 30),
+
+          const SizedBox(height: 60),
 
           // --- My Best Moments ---
           Row(
@@ -115,6 +135,8 @@ class MySpaceScreen extends StatelessWidget {
                 _buildMomentFolder("Oct 2025"),
                 const SizedBox(width: 15),
                 _buildMomentFolder("May 2025"),
+                const SizedBox(width: 15),
+                _buildMomentFolder("Apr 2025"),
               ],
             ),
           ),
@@ -150,31 +172,6 @@ class MySpaceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlanButton(String title, String dateRange) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFD700), // Gold
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.poppins(color: const Color(0xFF03121A), fontWeight: FontWeight.bold, fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            dateRange,
-            style: GoogleFonts.lato(color: const Color(0xFF03121A).withOpacity(0.8), fontSize: 12),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMomentFolder(String month) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,13 +183,7 @@ class MySpaceScreen extends StatelessWidget {
             border: Border.all(color: Colors.white70),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Stack(
-            children: [
-              // Placeholder for the "mountain" icon in the design
-              Center(child: Icon(Icons.landscape_outlined, size: 60, color: Colors.white70)),
-              Positioned(top: 10, left: 10, child: Icon(Icons.circle_outlined, size: 16, color: Colors.white70)),
-            ],
-          ),
+          child: Icon(Icons.landscape_outlined, size: 60, color: Colors.white70),
         ),
         const SizedBox(height: 8),
         Text(month, style: GoogleFonts.lato(color: Colors.white, fontSize: 14)),
